@@ -15,9 +15,12 @@ class CreateRecordUserTable extends Migration
     {
         Schema::create('record_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('record_id');
-            $table->integer('user_id');
+            $table->integer('record_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('record_id')->references('id')->on('records')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

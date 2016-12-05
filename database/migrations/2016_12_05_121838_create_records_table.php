@@ -18,7 +18,7 @@ class CreateRecordsTable extends Migration
             $table->string('name');
             $table->string('artist');
             $table->integer('year');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
