@@ -14,21 +14,21 @@ use Illuminate\Http\Request;
 */
 
 
-Route::group(['prefix' => 'messages'], function () {
-	Route::get('/', 'MessageController@index');
-});
+// Route::group(['prefix' => 'messages'], function () {
+// 	Route::get('/', 'MessageController@index');
+// });
 
-Route::group(['prefix' => 'records'], function () {
-	Route::get('/', 'RecordController@index');
+// Route::group(['prefix' => 'records'], function () {
+// 	Route::get('/', 'RecordController@index');
 
-});
+// });
 
-Route::group(['prefix' => 'users'], function () {
-	Route::get('/', 'UserController@index');
+// Route::group(['prefix' => 'users'], function () {
+// 	Route::get('/', 'UserController@index');
 
-});
+// });
 
-Route::group(['prefix' => 'subscriptions'], function () {
-	Route::get('/', 'UserController@subscriptions');
+// Route::group(['prefix' => 'subscriptions'], function () {
+// 	Route::get('/', 'UserController@subscriptions');
 
-});
+// });

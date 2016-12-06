@@ -8,5 +8,5 @@ use App\Message;
 
 class MessageController extends Controller
 {
-    public function get() { return Message::mine(); }
+    public function get($user_id) { return json_encode(Message::getFeed($user_id)); }
 }
