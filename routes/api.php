@@ -32,3 +32,5 @@ use Illuminate\Http\Request;
 // 	Route::get('/', 'UserController@subscriptions');
 
 // });
+
+Route::post('test', 'RecordController@find');
