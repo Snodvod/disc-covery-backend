@@ -12,6 +12,6 @@ class RecordController extends Controller
         $musicFinder = new Musicfinder();
         $result = json_decode($musicFinder->find($request->file));
 
-        dd($result->metadata->music);
+        return response()->json($result);
     }
 }
