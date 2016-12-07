@@ -10,8 +10,11 @@ class RecordController extends Controller
     public function find(Request $request)
     {
         $musicFinder = new Musicfinder();
+
         $result = $musicFinder->find($request->files->get('file'));
 
-        dd($result);
+        if ($result->status->msg == "Success") {
+            return response()->json(['data' => 'everything ok'], 200);
+        }
     }
 }
