@@ -30,7 +30,7 @@ class Musicfinder
         // suported file formats: mp3,wav,wma,amr,ogg, ape,acc,spx,m4a,mp4,FLAC, etc
         // File size: < 1M , You'de better cut large file to small file, within 15 seconds data size is better
         $filesize = filesize($file);
-        $cfile = new \CURLFile($file, "mp3", basename($file));
+        $cfile = curl_file_create($file, "mp3", basename($file));
         $postfields = array(
             "sample" => $cfile,
             "sample_bytes" => $filesize,
