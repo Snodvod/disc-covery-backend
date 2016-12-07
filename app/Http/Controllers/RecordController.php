@@ -10,8 +10,8 @@ class RecordController extends Controller
     public function find(Request $request)
     {
         $musicFinder = new Musicfinder();
-        $result = json_decode($musicFinder->find($request->files->get('file')));
+        $result = $musicFinder->find($request->files->get('file'));
 
-        return response()->json($result);
+        return response()->json(['data' => $result], 200);
     }
 }
