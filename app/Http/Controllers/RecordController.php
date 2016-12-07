@@ -12,6 +12,6 @@ class RecordController extends Controller
         $musicFinder = new Musicfinder();
         $result = $musicFinder->find($request->files->get('file'));
 
-        return response()->json(['data' => $result], 200);
+        return $result;
     }
 }
