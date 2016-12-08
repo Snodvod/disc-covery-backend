@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Musicfinder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RecordController extends Controller
 {
@@ -13,7 +14,11 @@ class RecordController extends Controller
 
         $musicFinder = new Musicfinder();
 
-        $result = json_decode($musicFinder->find($file));
+        $result = $musicFinder->find($file);
+
+        Log::info($result);
+
+        $result = json_decode($result);
 
         if ($result->status->msg == "Success") {
             return response()->json(['data' => 'everything ok'], 200);
