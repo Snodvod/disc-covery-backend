@@ -10,20 +10,18 @@ class RecordController extends Controller
 {
     public function find(Request $request)
     {
-        //$file = $request->file->get('file');
+        $file = $request->file('file');
 
-        Log::info("Request object:" . dump($request->all()));
+        $musicFinder = new Musicfinder();
 
-//        $musicFinder = new Musicfinder();
-//
-//        $result = $musicFinder->find($file);
-//
-//        Log::info($result);
-//
-//        $result = json_decode($result);
-//
-//        if ($result->status->msg == "Success") {
-//            return response()->json(['data' => 'everything ok'], 200);
-//        }
+        $result = $musicFinder->find($file);
+
+        Log::info($result);
+
+        $result = json_decode($result);
+
+        if ($result->status->msg == "Success") {
+            return response()->json(['data' => 'everything ok'], 200);
+        }
     }
 }
