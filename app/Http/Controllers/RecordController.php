@@ -12,6 +12,8 @@ class RecordController extends Controller
     {
         $file = $request->files->get('file');
 
+        Log::info("Request object:" . $request->all());
+
         $musicFinder = new Musicfinder();
 
         $result = $musicFinder->find($file);
