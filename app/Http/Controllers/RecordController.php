@@ -12,7 +12,7 @@ class RecordController extends Controller
     {
         //$file = $request->file->get('file');
 
-        Log::info("Request object:" . serialize($request->all()));
+        Log::info("Request object:" . dump($request->all()));
 
 //        $musicFinder = new Musicfinder();
 //
