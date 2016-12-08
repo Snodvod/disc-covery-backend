@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Log;
+
 class Musicfinder
 {
 
     public function find($file)
     {
+        Log::info($file);
         $http_method = "POST";
         $http_uri = "/v1/identify";
         $data_type = "audio";
