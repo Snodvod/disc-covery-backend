@@ -13,24 +13,27 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/following', 'UserController@following');
+Route::get('/followed-by', 'UserController@followedBy');
+Route::get('my-music', 'RecordController@myList');
 
-// Route::group(['prefix' => 'messages'], function () {
-// 	Route::get('/', 'MessageController@index');
-// });
+Route::group(['prefix' => 'messages'], function () {
+ 	Route::get('/', 'MessageController@index');
+ });
 
-// Route::group(['prefix' => 'records'], function () {
-// 	Route::get('/', 'RecordController@index');
+Route::group(['prefix' => 'records'], function () {
+ 	Route::get('/add/{record_id}', 'RecordController@findOwner');
+    Route::get('/find', 'RecordController@find');
+ });
 
-// });
+Route::group(['prefix' => 'users'], function () {
+     Route::get('/find', 'UserController@search');
+     Route::get('/find-by-record/{record_id}', 'RecordControlle r@findOwner');
+ });
 
-// Route::group(['prefix' => 'users'], function () {
-// 	Route::get('/', 'UserController@index');
+ Route::group(['prefix' => 'subscriptions'], function () {
+ 	Route::get('/', 'UserController@subscriptions');
 
-// });
-
-// Route::group(['prefix' => 'subscriptions'], function () {
-// 	Route::get('/', 'UserController@subscriptions');
-
-// });
+ });
 
 Route::post('test', 'RecordController@find');
