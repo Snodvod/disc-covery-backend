@@ -17,8 +17,6 @@ class RecordController extends Controller
 
         $result = $musicFinder->find($file);
 
-        Log::info($result);
-
         $result = json_decode($result);
 
         if ($result->status->msg == "Success") {
