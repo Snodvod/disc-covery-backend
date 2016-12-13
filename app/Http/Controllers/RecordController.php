@@ -19,8 +19,10 @@ class RecordController extends Controller
 
         $result = json_decode($result);
 
-        if ($result->status->msg == "Success") {
-            return response()->json(['data' => 'everything ok'], 200);
+        if ($result) {
+            return response()->json(['Artist' => $result->metadata->music[0]->artists[0]->name], 200);
+        } else {
+            return response()->json(['data' => 'Sorry nothing found'], 200);
         }
     }
 
