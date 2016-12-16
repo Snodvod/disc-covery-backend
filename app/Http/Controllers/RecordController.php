@@ -29,4 +29,8 @@ class RecordController extends Controller
     public function findOwner($record_id) { return User::findByRecord($record_id); }
 
     public function add($record_id) { Record::find($record_id)->add(); }
+
+    public function show($id) { return json_encode(Record::find($id)); }
+
+    public function destroy($id) { Record::destroy($id); }
 }

@@ -24,16 +24,21 @@ Route::group(['prefix' => 'messages'], function () {
 Route::group(['prefix' => 'records'], function () {
  	Route::get('/add/{record_id}', 'RecordController@findOwner');
     Route::get('/find', 'RecordController@find');
+    Route::get('/{id}/get', 'RecordController@show');
  });
 
 Route::group(['prefix' => 'users'], function () {
      Route::get('/find', 'UserController@search');
-     Route::get('/find-by-record/{record_id}', 'RecordControlle r@findOwner');
+     Route::get('/find-by-record/{record_id}', 'RecordController@findOwner');
+     Route::get('/{id}/get', 'UserController@show');
+
+     Route::post('/{id}/save', 'UserController@update');
+
+     Route::delete('/delete', 'UserController@destroy');
  });
 
  Route::group(['prefix' => 'subscriptions'], function () {
  	Route::get('/', 'UserController@subscriptions');
-
  });
 
 Route::post('test', 'RecordController@find');
