@@ -15,4 +15,7 @@ class UserController extends Controller
             'query' => $request->input('q')
         ]);
     }
+
+    public function show($id) { return json_encode(User::find($id)); }
+    public function destroy($id) { User::destroy($id); }
 }
