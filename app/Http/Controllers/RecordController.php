@@ -20,13 +20,23 @@ class RecordController extends Controller
         $result = json_decode($result);
 
         if ($result) {
-            return response()->json(['Artist' => $result->metadata->music[0]->artists[0]->name], 200);
+            if ($result->status->message == "Success") {
+                return response()->json(['Artist' => $result->metadata->music[0]->artists[0]->name], 200);
+            } else {
+                return response()->json(['data' => 'Sorry nothing found'], 200);
+            }
         } else {
             return response()->json(['data' => 'Sorry nothing found'], 200);
         }
     }
 
-    public function findOwner($record_id) { return User::findByRecord($record_id); }
+    public function findOwner($record_id)
+    {
+        return User::findByRecord($record_id);
+    }
 
-    public function add($record_id) { Record::find($record_id)->add(); }
+    public function add($record_id)
+    {
+        Record::find($record_id)->add();
+    }
 }
