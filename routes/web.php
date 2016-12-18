@@ -17,6 +17,6 @@ Route::get('/', function () {
 
 Route::get('message/get/{user_id}', 'MessageController@get');
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index');
