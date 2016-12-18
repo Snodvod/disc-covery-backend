@@ -9,6 +9,8 @@ use DB;
 
 class Record extends Model
 {
+    protected $fillable = ['name', 'artist', 'year', 'image'];
+
     public function add()
     {
         DB::table('record_user')->insert([

@@ -21,6 +21,19 @@ class RecordController extends Controller
 
         if ($result) {
             if ($result->status->msg == "Success") {
+
+                $album = $result->metadata->music[0]->album->name;
+                $artist = $result->metadata->music[0]->artists[0]->name;
+                $year = $result->metadata->music[0]->release_date;
+
+                $record = Record::create([
+                    'name' => $album,
+                    'artist' => $artist,
+                    'year' => $year
+                ]);
+
+                
+
                 return response()->json(['Artist' => $result->metadata->music[0]->artists[0]->name], 200);
             } else {
                 return response()->json(['data' => 'Sorry nothing found'], 200);

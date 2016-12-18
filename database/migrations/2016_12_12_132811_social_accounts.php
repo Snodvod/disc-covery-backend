@@ -29,6 +29,6 @@ class SocialAccounts extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('social_accounts');
     }
 }
