@@ -43,4 +43,4 @@ Route::group(['prefix' => 'users'], function () {
 
 Route::post('test', 'RecordController@find');
 
-Route::post('register', 'Auth\RegisterController@create');
+Route::post('register', 'UserController@create');

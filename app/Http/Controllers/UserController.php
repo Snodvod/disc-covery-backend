@@ -18,4 +18,14 @@ class UserController extends Controller
 
     public function show($id) { return json_encode(User::find($id)); }
     public function destroy($id) { User::destroy($id); }
+
+    public function create(Request $request) {
+        $data = $request->all();
+
+        return User::create([
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'email' => $data['email'],
+        ]);
+    }
 }
