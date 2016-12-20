@@ -32,7 +32,7 @@ class UserController extends Controller
         $user->lastname = $data['lastname'];
         $user->save();
 
-        SocialAccounts::add($token, $user->id, 'facebook');
+        SocialAccount::add($token, $user->id, 'facebook');
 
     }
 
