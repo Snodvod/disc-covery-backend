@@ -22,12 +22,14 @@ class UserController extends Controller
     public function create(Request $request) {
         $data = $request->all();
 
-        return User::create([
-            'firstname' => $data['firstname'],
-            'lastname' => $data['lastname'],
-            'email' => $data['email'],
-            'token' => $data['token']
-        ]);
+        $token = $data['token'];
+        unset($data['token']);
+
+        $user = new User($data);
+
+        $user->save();
+
+        SocialAccounts::add($token, $user->id, 'facebook');
     }
 
     public function following() {
