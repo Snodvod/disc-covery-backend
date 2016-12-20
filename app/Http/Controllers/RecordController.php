@@ -32,8 +32,6 @@ class RecordController extends Controller
                     'year' => $year
                 ]);
 
-                
-
                 return response()->json(['Artist' => $result->metadata->music[0]->artists[0]->name], 200);
             } else {
                 return response()->json(['data' => 'Sorry nothing found'], 200);
@@ -51,6 +49,7 @@ class RecordController extends Controller
     public function show($id) { return json_encode(Record::find($id)); }
     public function add($record_id) { Record::find($record_id)->add(); }
     public function destroy($id) { Record::destroy($id); }
+
 
 
 }
