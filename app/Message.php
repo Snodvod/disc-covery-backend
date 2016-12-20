@@ -8,7 +8,7 @@ use DB;
 
 class Message extends Model
 {
-    protected function push($user_id, $message_id, $record_id) {
+    protected function pushNew($user_id, $message_id, $record_id) {
         DB::table('message_user')->insert([
             'user_id'       => $user_id,
             'message_id'    => $message_id,
