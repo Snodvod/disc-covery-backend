@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::get('/following', 'UserController@following');
 Route::get('/followed-by', 'UserController@followedBy');
 Route::get('/my-music', 'RecordController@myList');
-Route::get('/newsfeed', 'MessageController@get');
+Route::get('/newsfeed/{user_id?}', 'MessageController@get');
 
 Route::group(['prefix' => 'messages'], function () {
  	Route::get('/', 'MessageController@index');
