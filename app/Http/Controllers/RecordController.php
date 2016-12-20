@@ -50,6 +50,7 @@ class RecordController extends Controller
     public function add($record_id) { Record::find($record_id)->add(); }
     public function destroy($id) { Record::destroy($id); }
 
-
-
+    public function myList(Request $request) {
+        return json_encode([]);
+    }
 }

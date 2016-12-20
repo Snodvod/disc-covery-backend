@@ -28,4 +28,8 @@ class UserController extends Controller
             'email' => $data['email'],
         ]);
     }
+
+    public function following() {
+        return json_encode(User::find(1)->following());
+    }
 }

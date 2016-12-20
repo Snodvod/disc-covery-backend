@@ -60,4 +60,10 @@ class User extends Authenticatable
                     ->where('following.follower_id', $this->id)
                     ->get();
     }
+
+    public function following() {
+	    return self::join('following', 'following.following_id', '=', 'following.follower_id')
+                    ->where('following.following_id', $this->id)
+                    ->get();
+    }
 }
