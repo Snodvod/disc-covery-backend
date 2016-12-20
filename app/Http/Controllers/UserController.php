@@ -26,7 +26,7 @@ class UserController extends Controller
         $token = $data['token'];
         unset($data['token']);
 
-        $user = User::firstOrNew(['email' => $data['email']])->first();
+        $user = User::firstOrNew(['email' => $data['email']]);
 
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
