@@ -16,10 +16,12 @@ class SocialAccount
     public $timestamps = false;
 
     protected function add($token, $user_id, $platform) {
-        return self::insert([
+        $social = self::firstOrNew([
             'user_id'   => $user_id,
-            'token'     => $token,
             'platform'  => $platform
         ]);
+
+        $social->token = $token;
+        $social->save();
     }
 }

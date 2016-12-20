@@ -25,11 +25,14 @@ class UserController extends Controller
         $token = $data['token'];
         unset($data['token']);
 
-        $user = new User($data);
+        $user = User::firstOrNew(['email' => $data['email']])->first();
 
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
         $user->save();
 
         SocialAccounts::add($token, $user->id, 'facebook');
+
     }
 
     public function following() {
