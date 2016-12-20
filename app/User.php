@@ -17,14 +17,9 @@ class User extends Authenticatable
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['firstname', 'lastname', 'email', 'password', 'image'];
+	protected $fillable = ['firstname', 'lastname', 'email', 'image'];
+	public $timestamps = false;
 
-	/**
-	 * The attributes that should be hidden for arrays.
-	 *
-	 * @var array
-	 */
-	protected $hidden = ['password', 'remember_token',];
 
 	public function messages() { return $this->belongsToMany('App\Messages'); }
 
