@@ -16,7 +16,6 @@ class SocialAccounts extends Migration
         Schema::create('social_accounts', function (Blueprint $table) {
            $table->increments('id');
            $table->string('platform');
-           $table->string('platform_id');
            $table->string('token');
            $table->integer('user_id');
         });

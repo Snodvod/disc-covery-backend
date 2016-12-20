@@ -26,6 +26,7 @@ class UserController extends Controller
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
+            'token' => $data['token']
         ]);
     }
 
