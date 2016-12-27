@@ -26,13 +26,15 @@ class RecordController extends Controller
                 $artist = $result->metadata->music[0]->artists[0]->name;
 
                 $results = $musicFinder->gracenote($artist, $title);
-                dd($results);
 
-//                $record = Record::create([
-//                    'name' => $album,
-//                    'artist' => $artist,
-//                    'year' => $year
-//                ]);
+                $album = $results[0]->album_title;
+                $year = $results[0]->album_year;
+
+                $record = Record::create([
+                    'name' => $album,
+                    'artist' => $artist,
+                    'year' => $year
+                ]);
 
                 return response()->json(['Artist' => $result->metadata->music[0]->artists[0]->name], 200);
             } else {
