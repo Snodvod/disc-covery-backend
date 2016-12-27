@@ -21,7 +21,17 @@ class UsersTableSeeder extends Seeder
 					'firstname'	=> 'Tim',
 					'lastname'	=> 'Van Dyck',
 					'email'		=> 'user1@user.com'
-				]
+				],
+				[
+					'firstname'	=> 'User',
+					'lastname'	=> '2',
+					'email'		=> 'user2@user.com'
+				],
+				[
+					'firstname'	=> 'User',
+					'lastname'	=> '3',
+					'email'		=> 'user3@user.com'
+				],
 		]);
 	}
 }
