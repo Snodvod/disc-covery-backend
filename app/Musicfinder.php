@@ -1,15 +1,13 @@
 <?php
-
 namespace App;
 
-use Illuminate\Support\Facades\Log;
+use App\Gracenote\GracenoteWebAPI;
 
 class Musicfinder
 {
 
     public function find($file)
     {
-        Log::info($file);
         $http_method = "POST";
         $http_uri = "/v1/identify";
         $data_type = "audio";
@@ -55,5 +53,16 @@ class Musicfinder
 
         return $result;
 
+    }
+
+    public function gracenote($artist, $track) {
+        $client_id = env('GRACENOTE_CLIENT_ID');
+        $client_tag = env('GRACENOTE_CLIENT_TAG');
+        $user_id = env('GRACENOTE_USER_ID');
+
+        $api = new GracenoteWebAPI($client_id, $client_tag, $user_id);
+
+        $results = $api->searchTrack($artist, '', $track);
+        return $results;
     }
 }

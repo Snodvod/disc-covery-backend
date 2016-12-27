@@ -22,15 +22,17 @@ class RecordController extends Controller
         if ($result) {
             if ($result->status->msg == "Success") {
 
-                $album = $result->metadata->music[0]->album->name;
+                $title = $result->metadata->music[0]->title;
                 $artist = $result->metadata->music[0]->artists[0]->name;
-                $year = $result->metadata->music[0]->release_date;
 
-                $record = Record::create([
-                    'name' => $album,
-                    'artist' => $artist,
-                    'year' => $year
-                ]);
+                $results = $musicFinder->gracenote($artist, $title);
+                dd($results);
+
+//                $record = Record::create([
+//                    'name' => $album,
+//                    'artist' => $artist,
+//                    'year' => $year
+//                ]);
 
                 return response()->json(['Artist' => $result->metadata->music[0]->artists[0]->name], 200);
             } else {
