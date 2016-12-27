@@ -27,8 +27,9 @@ class RecordController extends Controller
 
                 $results = $musicFinder->gracenote($artist, $title);
 
-                $album = $results[0]->album_title;
-                $year = $results[0]->album_year;
+
+                $album = $results[0]['album_title'];
+                $year = $results[0]['album_year'];
 
                 $record = Record::create([
                     'name' => $album,
