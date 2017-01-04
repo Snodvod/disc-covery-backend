@@ -9,7 +9,7 @@ class SocialAccount extends Model
     public $timestamps = false;
 
     protected function add(array $data) {
-        if (!array_key_exists('api_user_id', $data) && 'platform' == 'spotify') {
+        if (!array_key_exists('api_user_id', $data) && $data['platform'] == 'spotify') {
 
             // Send API request to get user id from Spotify
             $curl = curl_init();
@@ -23,9 +23,7 @@ class SocialAccount extends Model
             $data['api_user_id'] = $spotify_id;
         }
 
-        if (!array_key_exists('user_id', $data)) {
-            $data['user_id'] = User::findByFbToken($data['fb_token'])->id;
-        }
+        if (!array_key_exists('user_id', $data)) { $data['user_id'] = User::findByFbToken($data['fb_token'])->id; }
         $social = self::firstOrNew([
             'user_id'       => $data['user_id'],
             'platform'      => $data['platform'],
