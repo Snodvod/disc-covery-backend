@@ -8,8 +8,8 @@ class SocialAccount extends Model
     protected $fillable = ['token', 'user_id', 'platform', 'api_user_id'];
     public $timestamps = false;
 
-    protected function add($data) {
-        if (!array_key_exists('api_user_id ', $data) && 'platform' == 'spotify') {
+    protected function add(array $data) {
+        if (!array_key_exists('api_user_id', $data) && 'platform' == 'spotify') {
 
             // Send API request to get user id from Spotify
             $curl = curl_init();

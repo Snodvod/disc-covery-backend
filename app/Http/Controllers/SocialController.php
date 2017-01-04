@@ -15,7 +15,11 @@ class SocialController
 {
     public function spotify(Request $request) {
         $data = $request->all();
-        SocialAccount::add($data['token'], $data['fb_token'], 'spotify');
+        SocialAccount::add([
+            'token' => $data['token'],
+            'fb_token' => $data['fb_token'],
+            'platform' => 'spotify',
+        ]);
     }
 
     public function openFacebookDialog() {
