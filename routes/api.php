@@ -17,7 +17,7 @@ Route::get('/following', 'UserController@following');
 Route::get('/followed-by', 'UserController@followedBy');
 Route::get('/my-music', 'RecordController@myList');
 Route::get('/newsfeed/{user_id?}', 'MessageController@get');
-Route::post('spotify/token', 'SocialController@spotify');
+Route::post('spotify/link', 'SocialController@spotify');
 
 Route::group(['prefix' => 'messages'], function () {
  	Route::get('/', 'MessageController@index');
@@ -42,6 +42,8 @@ Route::group(['prefix' => 'users'], function () {
  Route::group(['prefix' => 'subscriptions'], function () {
  	Route::get('/', 'UserController@subscriptions');
  });
+ Route::get('facebook/post', 'SocialController@openFacebookDialog');
+ Route::get('spotify/add', 'RecordController@addToPlaylist');
 
 Route::post('test', 'RecordController@find');
 

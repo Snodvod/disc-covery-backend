@@ -17,6 +17,7 @@ class CreateRecordUserTable extends Migration
             $table->increments('id');
             $table->integer('record_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->boolean('spotified')->default(false);
             $table->timestamps();
 
             $table->foreign('record_id')->references('id')->on('records')->onUpdate('cascade')->onDelete('cascade');

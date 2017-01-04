@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Tim
- * Date: 20/12/2016
- * Time: 16:31
- */
 
 namespace App;
 
@@ -15,13 +9,20 @@ class SocialAccount extends Model
     protected $fillable = ['token', 'user_id', 'platform'];
     public $timestamps = false;
 
-    protected function add($token, $user_id, $platform) {
+    protected function add($token, $user_id, $platform, $api_user_id) {
         $social = self::firstOrNew([
-            'user_id'   => $user_id,
-            'platform'  => $platform
+            'user_id'       => $user_id,
+            'platform'      => $platform,
+            'api_user_id'   => $api_user_id
         ]);
 
         $social->token = $token;
         $social->save();
+    }
+
+    protected function isLinked($platform) {
+        $social = SocialAccount::where('platform', $platform)->first();
+        if (isset($social->id)) { return 1; }
+        return 0;
     }
 }

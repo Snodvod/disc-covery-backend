@@ -17,6 +17,8 @@ class CreateSongsTable extends Migration
            $table->increments('id');
            $table->string('name');
            $table->string('duration');
+           $table->string('spotify_id');
+           $table->string('spotify_uri');
         });
     }
 

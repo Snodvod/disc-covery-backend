@@ -17,9 +17,8 @@ class User extends Authenticatable
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['firstname', 'lastname', 'email', 'image'];
+	protected $fillable = ['firstname', 'lastname', 'email', 'image', 'playlist_id', 'api_user_id'];
 	public $timestamps = false;
-
 
 	public function messages() { return $this->belongsToMany('App\Messages'); }
 
@@ -60,5 +59,14 @@ class User extends Authenticatable
 	    return self::join('following', 'following.following_id', '=', 'following.follower_id')
                     ->where('following.following_id', $this->id)
                     ->get();
+    }
+
+    protected function findOrCreateRecord($record_id) {
+	    $record_user = DB::table('record_user')->updateOrCreate([
+                                'record_user.record_id'    => $record_id,
+                                'record_user.user_id'      => 1,
+                            ], ['updated_at' => date('Y-m-d H:i:s')]);
+
+        return $record_user;
     }
 }

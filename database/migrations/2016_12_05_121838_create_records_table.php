@@ -19,6 +19,7 @@ class CreateRecordsTable extends Migration
             $table->string('artist');
             $table->string('year');
             $table->string('image')->nullable();
+            $table->string('spotify_id')->nullable();
             $table->timestamps();
         });
     }
