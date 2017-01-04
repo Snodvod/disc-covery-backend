@@ -69,4 +69,11 @@ class User extends Authenticatable
 
         return $record_user;
     }
+
+    protected function findByFbToken($token) {
+	    return User::join('social_accounts', 'social_accounts.user_id', '=', 'users.id')
+                    ->where('social_accounts.token', $token)
+                    ->where('social_accounts.platform', 'facebook')
+                    ->first();
+    }
 }

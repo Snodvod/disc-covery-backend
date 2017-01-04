@@ -9,9 +9,10 @@ class SocialAccount extends Model
     protected $fillable = ['token', 'user_id', 'platform'];
     public $timestamps = false;
 
-    protected function add($token, $user_id, $platform, $api_user_id) {
+    protected function add($token, $fb_token, $platform, $api_user_id) {
+        $user = User::findByFbToken($fb_token);
         $social = self::firstOrNew([
-            'user_id'       => $user_id,
+            'user_id'       => $user->id,
             'platform'      => $platform,
             'api_user_id'   => $api_user_id
         ]);
