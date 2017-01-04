@@ -32,7 +32,12 @@ class UserController extends Controller
         $user->lastname = $data['lastname'];
         $user->save();
 
-        SocialAccount::add($token, $user->id, 'facebook');
+        SocialAccount::add([
+            'token'         => $token,
+            'user_id'       => $user->id,
+            'platform'      => 'facebook',
+            'api_user_id'   => $data['api_user_id']
+        ]);
 
     }
 
