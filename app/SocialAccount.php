@@ -14,11 +14,12 @@ class SocialAccount extends Model
             // Send API request to get user id from Spotify
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, 'https://api.spotify.com/v1/me');
-            curl_setopt($curl, CURLOPT_HTTPHEADER, 'Authorization: Bearer '.$data['token']);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, ['Authorization: Bearer '.$data['token']]);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
             $result = curl_exec($curl);
             curl_close($curl);
 
-            $spotify_id = json_decode($result)['id'];
+            $spotify_id = json_decode($result, true)['id'];
 
             $data['api_user_id'] = $spotify_id;
         }
