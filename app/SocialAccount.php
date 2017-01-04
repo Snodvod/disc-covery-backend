@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 class SocialAccount extends Model
 {
-    protected $fillable = ['token', 'user_id', 'platform'];
+    protected $fillable = ['token', 'user_id', 'platform', 'api_user_id'];
     public $timestamps = false;
 
     protected function add($data) {
