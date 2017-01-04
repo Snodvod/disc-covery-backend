@@ -39,11 +39,12 @@ Route::group(['prefix' => 'users'], function () {
      Route::delete('/delete', 'UserController@destroy');
  });
 
- Route::group(['prefix' => 'subscriptions'], function () {
- 	Route::get('/', 'UserController@subscriptions');
- });
- Route::get('facebook/post', 'SocialController@openFacebookDialog');
- Route::get('spotify/add', 'RecordController@addToPlaylist');
+Route::group(['prefix' => 'subscriptions'], function () {
+    Route::get('/', 'UserController@subscriptions');
+});
+
+Route::get('facebook/post', 'SocialController@openFacebookDialog');
+Route::post('spotify/add', 'RecordController@addToPlaylist');
 
 Route::post('test', 'RecordController@find');
 
