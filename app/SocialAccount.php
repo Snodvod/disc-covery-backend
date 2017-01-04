@@ -23,7 +23,9 @@ class SocialAccount extends Model
             $data['api_user_id'] = $spotify_id;
         }
 
-        $data['user_id'] = User::findByFbToken($data['fb_token'])->id;
+        if (!array_key_exists('user_id', $data)) {
+            $data['user_id'] = User::findByFbToken($data['fb_token'])->id;
+        }
         $social = self::firstOrNew([
             'user_id'       => $data['user_id'],
             'platform'      => $data['platform'],
