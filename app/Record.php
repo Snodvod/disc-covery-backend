@@ -16,26 +16,33 @@ class Record extends Model
     {
         DB::table('record_user')->insert([
             'record_id' => $this->id,
-            'user_id'   => Auth::user()->id
+            'user_id' => Auth::user()->id
         ]);
     }
 
-    public function saveTracks($tracks) {
+    public function saveTracks($tracks)
+    {
         foreach ($tracks as $track) {
-            $song = Song::createOrUpdate([
-                'name'          => $track['name'],
-                'duration'      => $track['duration_ms'],
-                'spotify_id'    => $track['id'],
+            $song = Song::updateOrCreate([
+                'name' => $track->name,
+                'duration' => $track->duration_ms,
+                'spotify_id' => $track->id,
             ]);
-
+            $record = $this;
             DB::table('record_song')->insert([
-                'record_id' => $this->id,
+                'record_id' => $record->id,
                 'song_id' => $song->id,
             ]);
         }
     }
 
-    protected function addToPlaylist($fb_token) {
+    public function songs()
+    {
+        return $this->belongsToMany('App\Song');
+    }
+
+    protected function addToPlaylist($fb_token)
+    {
         $user = User::select('users.*', 'token', 'playlist_id', 'api_user_id AS spotify_id', 'social_accounts.id AS social_id')
             ->join('social_accounts', 'social_accounts.user_id', '=', 'users.id')
             ->where(['platform' => 'spotify', 'token' => $fb_token])->first();
@@ -56,24 +63,30 @@ class Record extends Model
         $uris = [];
 
         foreach ($tracks as $track) {
-            $uris[] = $track->spotify_uri;
+            array_push($uris, 'spotify:track:' . $track->spotify_id);
         }
 
-        $res = $client->post('https://api.spotify.com/v1/users/'.$user->spotify_id.'/playlists/'.$track->spotify_idd.'/tracks', [
+        $res = $client->post('https://api.spotify.com/v1/users/' . $user->spotify_id . '/playlists/' . $track->spotify_id . '/tracks', [
             'uris' => $uris
         ]);
     }
 
-    protected function makePlaylist($spotify_id) {
+    protected function makePlaylist($spotify_id)
+    {
         $client = new Client();
-        $res = $client->post('https://api.spotify.com/v1/users/'.$spotify_id.'/playlists', [
-            'name'      => 'My Records',
-            'public'    => true,
+        $res = $client->post('https://api.spotify.com/v1/users/' . $spotify_id . '/playlists', [
+            'name' => 'My Records',
+            'public' => true,
         ]);
 
         if ($res->getStatusCode() == 200) {
             $social = SocialAccount::where('api_user_id', $spotify_id)->first();
             return json_encode($res->getBody());
         }
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User');
     }
 }

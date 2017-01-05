@@ -32,35 +32,45 @@ class RecordController extends Controller
                 $album = $results[0]['album_title'];
                 $year = $results[0]['album_year'];
 
-                $record = new Record();
-                $record->name = $album;
-                $record->artist = $artist;
-                $record->year = $year;
+                $record = Record::where('name', $album)->first();
+                if (!$record) {
 
-                $client = new Client();
-                $albums = json_decode($client->get('https://api.spotify.com/v1/search?q='.str_replace(' ', '+',$record->name).'&type=album'))['items'];
+                    $record = Record::create([
+                        'name' => $album,
+                        'artist' => $artist,
+                        'year' => $year
+                    ]);
 
-                if (count($albums) > 0) {
-                    foreach ($albums as $index => $album) {
-                        if ($album['name'] == $record->name) {
-                            foreach ($album['artists'] as $artist) {
-                                if ($artist['name'] == $record->artist) {
-                                    $record->spotify_id = $album['id'];
-                                    $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/'.$record->spotify_id.'/tracks'))['items'];
-                                    $record->saveTracks($tracks);
+                    $client = new Client();
+                    $res = $client->get('https://api.spotify.com/v1/search?q=' . str_replace(' ', '+', $record->name) . '&type=album');
+                    $albums = json_decode($res->getBody()->getContents())->albums->items;
+
+                    //dd($albums);
+                    if (count($albums) > 0) {
+                        foreach ($albums as $index => $album) {
+                            if ($album->name == $record->name) {
+                                foreach ($album->artists as $artist) {
+                                    if ($artist->name == $record->artist) {
+                                        $record->spotify_id = $album->id;
+                                        $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
+                                        $record->saveTracks($tracks);
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        $record->spotify_id = null;
                     }
-                } else { $record->spotify_id = null; }
-
-                $record->save();
-                $record_user = User::findOrCreateRecord($record->id);
+                    $record->save();
+                    $record->users()->attach(1);
+                } else {
+                    $record = Record::where('name', $album)->first();
+                }
 
                 return response()->json([
-                    'twitter'   => SocialAccount::isLinked('twitter'),
-                    'spotify'   => SocialAccount::isLinked('spotify') && $record_user->spotified,
-                    'result'    => 1,
+                    'twitter' => SocialAccount::isLinked('twitter'),
+                    'spotify' => SocialAccount::isLinked('spotify') && $record->pivot->spotified,
+                    'result' => 1,
                 ], 200);
             } else {
                 return response()->json(['result' => 0], 200);
@@ -75,17 +85,28 @@ class RecordController extends Controller
         return User::findByRecord($record_id);
     }
 
-    public function show($id) { return json_encode(Record::find($id)); }
+    public function show($id)
+    {
+        return json_encode(Record::find($id));
+    }
 
-    public function add($record_id) { Record::find($record_id)->add(); }
+    public function add($record_id)
+    {
+        Record::find($record_id)->add();
+    }
 
-    public function destroy($id) { Record::destroy($id); }
+    public function destroy($id)
+    {
+        Record::destroy($id);
+    }
 
-    public function myList(Request $request) {
+    public function myList(Request $request)
+    {
         return json_encode([]);
     }
 
-    public function addToPlaylist(Request $request) {
+    public function addToPlaylist(Request $request)
+    {
         return Record::addToPlaylist($request->input('fb_token'));
     }
 }

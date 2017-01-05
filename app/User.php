@@ -62,12 +62,15 @@ class User extends Authenticatable
     }
 
     protected function findOrCreateRecord($record_id) {
-	    $record_user = DB::table('record_user')->updateOrCreate([
-                                'record_user.record_id'    => $record_id,
-                                'record_user.user_id'      => 1,
-                            ], ['updated_at' => date('Y-m-d H:i:s')]);
+	    $user = User::find(1);
 
-        return $record_user;
+	    $record = DB::table('record_user')->where('record_id', $record_id)->first();
+
+	    if($record) {
+	        $user->records()->updateExistingPivot($record_id);
+        } else {
+	        $user->records()->attach($record_id);
+        }
     }
 
     protected function findByFbToken($token) {
