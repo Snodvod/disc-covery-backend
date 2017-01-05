@@ -63,8 +63,6 @@ class RecordController extends Controller
                     }
                     $record->save();
                     $record->users()->attach(1);
-                } else {
-                    $record = Record::where('name', $album)->first();
                 }
 
                 return response()->json([
