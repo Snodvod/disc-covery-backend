@@ -46,6 +46,7 @@ class RecordController extends Controller
                     $albums = json_decode($res->getBody()->getContents())->albums->items;
 
                     //dd($albums);
+                    $tracks = [];
                     if (count($albums) > 0) {
                         foreach ($albums as $index => $album) {
                             if ($album->name == $record->name) {
@@ -53,7 +54,7 @@ class RecordController extends Controller
                                     if ($artist->name == $record->artist) {
                                         $record->spotify_id = $album->id;
                                         $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
-                                        $record->saveTracks($tracks);
+                                        Song::saveTracks($tracks, $record->spotify_id);
                                     }
                                 }
                             }

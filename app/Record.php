@@ -41,48 +41,81 @@ class Record extends Model
         return $this->belongsToMany('App\Song');
     }
 
-    protected function addToPlaylist($fb_token)
+    protected function addToPlaylist($token)
     {
-        $user = User::select('users.*', 'token', 'playlist_id', 'api_user_id AS spotify_id', 'social_accounts.id AS social_id')
+        $user = User::select('users.*', 'social_accounts.token', 'social_accounts.playlist_id', 'social_accounts.api_user_id AS spotify_id', 'social_accounts.id AS social_id')
             ->join('social_accounts', 'social_accounts.user_id', '=', 'users.id')
-            ->where(['platform' => 'spotify', 'token' => $fb_token])->first();
+            ->where(['social_accounts.platform' => 'spotify', 'social_accounts.token' => $token])->first();
 
         if ($user->playlist_id == null) {
-            self::makePlaylist($user->spotify_id);
-            $user->playlist_id = SocialAccount::select('playlist_id')->find($user->social_id)->playlist_id;
+            $user->playlist_id = self::makePlaylist($user->spotify_id, $token);
         }
 
         $record = Record::select('records.*')
-            ->join('record_user', 'record_user.user_id', 'users_id')
+            ->join('record_user', 'record_user.record_id', 'records.id')
+            ->join('users', 'record_user.user_id', 'users.id')
             ->where('record_user.user_id', $user->id)
             ->orderBy('updated_at', 'desc')
-            ->get();
+            ->first();
 
         $client = new Client();
-        $tracks = Song::where('record_id', $record->id)->get();
+        $tracks = Song::join('record_song', 'record_song.song_id', '=', 'songs.id')
+                        ->where('record_song.record_id', $record->id)->get();
         $uris = [];
 
         foreach ($tracks as $track) {
             array_push($uris, 'spotify:track:' . $track->spotify_id);
         }
+        $ch = curl_init();
 
-        $res = $client->post('https://api.spotify.com/v1/users/' . $user->spotify_id . '/playlists/' . $track->spotify_id . '/tracks', [
-            'uris' => $uris
+        curl_setopt($ch, CURLOPT_URL, 'https://api.spotify.com/v1/users/'.$user->spotify_id.'/playlists/'.$user->playlist_id.'/tracks');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer '.$token,
+            'Accept: application/json'
         ]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['uris' => $uris]));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+        $result = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $result;
     }
 
-    protected function makePlaylist($spotify_id)
+    protected function makePlaylist($spotify_id, $token)
     {
-        $client = new Client();
-        $res = $client->post('https://api.spotify.com/v1/users/' . $spotify_id . '/playlists', [
+        $postfields = [
             'name' => 'My Records',
             'public' => true,
-        ]);
+        ];
 
-        if ($res->getStatusCode() == 200) {
-            $social = SocialAccount::where('api_user_id', $spotify_id)->first();
-            return json_encode($res->getBody());
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://api.spotify.com/v1/users/' . $spotify_id . '/playlists');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer '.$token,
+            'Content-Type:application/json',
+        ]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postfields));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+        $result = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+        $playlist_id = json_decode($result)->id;
+
+        if ($httpcode == 201) {
+            $social = SocialAccount::where(['token' => $token, 'platform' => 'spotify'])->first();
+            $social->playlist_id = $playlist_id;
+            $social->save();
+            return $social->playlist_id;
         }
+
+        return null;
     }
 
     public function users()
