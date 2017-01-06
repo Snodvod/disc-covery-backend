@@ -64,6 +64,7 @@ class RecordController extends Controller
                     $record->users()->attach(1);
                 }
 
+
                 return response()->json([
                     'twitter' => SocialAccount::isLinked('twitter'),
                     'spotify' => SocialAccount::isLinked('spotify') && $record->pivot->spotified,
