@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\SocialAccount;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SocialController
 {
@@ -23,12 +24,17 @@ class SocialController
     }
 
     public function openFacebookDialog() {
-        header('Content-Type: text/event-stream');
-        header('Cache-Control: no-cache');
+        $response = new StreamedResponse();
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('Cache-Control', 'no-cache');
 
-        $time = date('r');
-        echo "data: Suppressing fire!: {$time}\n\n";
-        flush();
-
+        $response->setCallback(
+            function() {
+                echo "event: facebook"; // no retry would default to 3 seconds.
+                echo "data: Dialog open";
+                ob_flush();
+                flush();
+            });
+        $response->send();
     }
 }
