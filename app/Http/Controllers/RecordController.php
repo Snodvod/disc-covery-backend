@@ -42,21 +42,19 @@ class RecordController extends Controller
                     ]);
 
                     $client = new Client();
-                    $res = $client->get('https://api.spotify.com/v1/search?q=' . urlencode($record->name . ' '. $record->artist) . '&type=album');
-                    $albums = json_decode($res->getBody()->getContents())->albums->items;
-                    //dd($albums, $)
+                    $res = $client->get('https://api.spotify.com/v1/search?q=' . urlencode($record->name . ' ' . $record->artist) . '&type=album');
+                    $albums = collect(json_decode($res->getBody()->getContents())->albums->items);
 
                     if (count($albums) > 0) {
-                        foreach ($albums as $index => $album) {
-                            if (strcmp($album->name, $record->name)) {
-                                foreach ($album->artists as $artist) {
-                                    if (strcmp($artist->name, $record->artist)) {
-                                        $record->spotify_id = $album->id;
-                                        $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
-                                        $record->saveTracks($tracks);
-                                        break 2;
-                                    }
-                                }
+                        $album = $albums->filter(function ($album) use ($record) {
+                            return $album->name == $record->name;
+                        })->first();
+                        foreach ($album->artists as $artist) {
+                            if (strcmp($artist->name, $record->artist)) {
+                                $record->spotify_id = $album->id;
+                                $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
+                                $record->saveTracks($tracks);
+                                break;
                             }
                         }
                     } else {
@@ -108,7 +106,7 @@ class RecordController extends Controller
     public function addToPlaylist()
     {
         $user = User::find(1);
-        
+
         return Record::addToPlaylist($user->socials()->where('platform', 'spotify')->first()->token);
     }
 }
