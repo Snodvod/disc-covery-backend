@@ -30,6 +30,11 @@ class User extends Authenticatable
             ->get();
 	}
 
+	public function socials()
+    {
+        return $this->hasMany('App\SocialAccount');
+    }
+
 	public function follow()
     {
 		DB::table('following')->insert([

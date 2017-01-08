@@ -105,8 +105,10 @@ class RecordController extends Controller
         return json_encode([]);
     }
 
-    public function addToPlaylist(Request $request)
+    public function addToPlaylist()
     {
-        return Record::addToPlaylist($request->input('fb_token'));
+        $user = User::find(1);
+
+        return Record::addToPlaylist($user->socials()->where('platform', 'spotify')->get()->token);
     }
 }

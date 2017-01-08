@@ -47,6 +47,7 @@ class Record extends Model
             ->join('social_accounts', 'social_accounts.user_id', '=', 'users.id')
             ->where(['social_accounts.platform' => 'spotify', 'social_accounts.token' => $token])->first();
 
+
         if ($user->playlist_id == null) {
             $user->playlist_id = self::makePlaylist($user->spotify_id, $token);
         }
@@ -58,7 +59,6 @@ class Record extends Model
             ->orderBy('updated_at', 'desc')
             ->first();
 
-        $client = new Client();
         $tracks = Song::join('record_song', 'record_song.song_id', '=', 'songs.id')
                         ->where('record_song.record_id', $record->id)->get();
         $uris = [];
