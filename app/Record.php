@@ -107,8 +107,7 @@ class Record extends Model
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
-        
-        dd($result);
+
         $playlist_id = json_decode($result)->id;
 
         if ($httpcode == 201) {
