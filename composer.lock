@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab314f02382f7a306f8d430c80c4316e",
-    "content-hash": "e22983a605572fbe92ccffb92e9ac41b",
+    "hash": "69ce675b832f998cac14816aa0d49640",
+    "content-hash": "74ebc1d39bc9dbda2937681fbd5fcc11",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -580,6 +580,53 @@
                 "spotify"
             ],
             "time": "2016-12-11 16:55:52"
+        },
+        {
+            "name": "laravel-notification-channels/ionic-push-notifications",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-notification-channels/ionic-push-notifications.git",
+                "reference": "336dfdb2e65e70a5697147cfdac699cedcc46b72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-notification-channels/ionic-push-notifications/zipball/336dfdb2e65e70a5697147cfdac699cedcc46b72",
+                "reference": "336dfdb2e65e70a5697147cfdac699cedcc46b72",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "illuminate/notifications": "5.3.*",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.5",
+                "orchestra/database": "3.3.x-dev",
+                "orchestra/testbench": "3.3.x-dev",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NotificationChannels\\IonicPushNotifications\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Beech",
+                    "email": "m@rkbee.ch",
+                    "homepage": "http://ma.rkbee.ch"
+                }
+            ],
+            "description": "Ionic Push Notifications driver",
+            "homepage": "https://github.com/laravel-notification-channels/ionic-push-notifications",
+            "time": "2017-01-02 19:55:20"
         },
         {
             "name": "laravel/framework",
