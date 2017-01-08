@@ -73,6 +73,11 @@ class User extends Authenticatable
         }
     }
 
+    public function records()
+    {
+        return $this->belongsToMany('App\Record')->withPivot('spotified')->withTimestamps();
+    }
+
     protected function findByFbToken($token) {
 	    return User::join('social_accounts', 'social_accounts.user_id', '=', 'users.id')
                     ->where('social_accounts.token', $token)

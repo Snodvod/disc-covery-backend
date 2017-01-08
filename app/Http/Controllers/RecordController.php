@@ -44,15 +44,17 @@ class RecordController extends Controller
                     $client = new Client();
                     $res = $client->get('https://api.spotify.com/v1/search?q=' . str_replace(' ', '+', $record->name) . '&type=album');
                     $albums = json_decode($res->getBody()->getContents())->albums->items;
+                    
 
                     if (count($albums) > 0) {
                         foreach ($albums as $index => $album) {
-                            if ($album->name == $record->name) {
+                            if (strcmp($album->name, $record->name)) {
                                 foreach ($album->artists as $artist) {
-                                    if ($artist->name == $record->artist) {
+                                    if (strcmp($artist->name, $record->artist)) {
                                         $record->spotify_id = $album->id;
                                         $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
                                         $record->saveTracks($tracks);
+                                        break 2;
                                     }
                                 }
                             }
@@ -63,11 +65,10 @@ class RecordController extends Controller
                     $record->save();
                     $record->users()->attach(1);
                 }
-                dd($record);
 
                 return response()->json([
                     'twitter' => SocialAccount::isLinked('twitter'),
-                    'spotify' => SocialAccount::isLinked('spotify') && $record->pivot->spotified,
+                    'spotify' => SocialAccount::isLinked('spotify') && !$record->pivot->spotified,
                     'result' => 1,
                 ], 200);
             } else {

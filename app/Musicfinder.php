@@ -62,6 +62,9 @@ class Musicfinder
 
         $api = new GracenoteWebAPI($client_id, $client_tag, $user_id);
 
+        $track = preg_replace("/\([^)]+\)/","",$track);
+        $track = preg_replace('/\[.*?\]/', '', $track);
+
         $results = $api->searchTrack($artist, '', $track);
         return $results;
     }
