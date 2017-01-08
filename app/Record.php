@@ -47,9 +47,10 @@ class Record extends Model
             ->join('social_accounts', 'social_accounts.user_id', '=', 'users.id')
             ->where(['social_accounts.platform' => 'spotify', 'social_accounts.token' => $token])->first();
 
+        $spotify_user_id = $user->socials()->where('platform', 'spotify')->first()->api_user_id;
 
         if ($user->playlist_id == null) {
-            $user->playlist_id = self::makePlaylist($user->spotify_id, $token);
+            $user->playlist_id = self::makePlaylist(, $token);
         }
 
         $record = Record::select('records.*')
@@ -68,7 +69,7 @@ class Record extends Model
         }
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, 'https://api.spotify.com/v1/users/'.$user->spotify_id.'/playlists/'.$user->playlist_id.'/tracks');
+        curl_setopt($ch, CURLOPT_URL, 'https://api.spotify.com/v1/users/'.$spotify_user_id.'/playlists/'.$user->playlist_id.'/tracks');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer '.$token,
             'Accept: application/json'
