@@ -45,7 +45,7 @@ Route::group(['prefix' => 'subscriptions'], function () {
 
 Route::get('facebook/post', 'SocialController@openFacebookDialog');
 Route::post('spotify/add', 'RecordController@addToPlaylist');
-//Route::post('twitter/post', SocialController@)
+
 
 Route::post('test', 'RecordController@find');
 

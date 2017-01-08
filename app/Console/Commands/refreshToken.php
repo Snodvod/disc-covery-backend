@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\User;
 use Illuminate\Console\Command;
+use GuzzleHttp\Client;
 
 class refreshToken extends Command
 {
@@ -40,23 +41,21 @@ class refreshToken extends Command
     {
         $social = User::find(1)->socials()->where('platform', 'spotify')->first();
         $token = $social->token;
+
         $postUrl = 'https://accounts.spotify.com/api/token';
         $params = array(
+            'client_id' => env('SPOTIFY_ID'),
+            'client_secret' => env('SPOTIFY_SECRET'),
             'grant_type' => 'authorization_code',
             'code' => $token,
             'redirect_uri' => env('SPOTIFY_REDIRECT'),
-            'client_id' => env('SPOTIFY_ID'),
-            'client_secret' => env('SPOTIFY_SECRET'),
         );
-        $options = array(
-            'http' => array(
-                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method' => 'POST',
-                'content' => http_build_query($params),
-            ),
-        );
-        $context = stream_context_create($options);
-        $result = json_decode(file_get_contents($postUrl, false, $context));
+
+        $client = new Client();
+
+        $request = $client->request('POST', $postUrl, $params);
+        $result = $client->send($request);
+
 
         $social->token = $result->access_token;
         $social->save();
