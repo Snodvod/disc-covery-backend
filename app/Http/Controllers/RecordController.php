@@ -42,7 +42,7 @@ class RecordController extends Controller
                     ]);
 
                     $client = new Client();
-                    $res = $client->get('https://api.spotify.com/v1/search?q=' . $record->name . ' '. $record->artist . '&type=album');
+                    $res = $client->get('https://api.spotify.com/v1/search?q=' . urlencode($record->name . ' '. $record->artist) . '&type=album');
                     $albums = json_decode($res->getBody()->getContents())->albums->items;
                     //dd($albums, $)
 
