@@ -22,10 +22,7 @@ class RecordController extends Controller
         $result = $musicFinder->find($file);
         $result = json_decode($result);
 
-        dd($result);
-
         if ($result) {
-            dd($result);
             if ($result->status->msg == "Success") {
                 $title = $result->metadata->music[0]->title;
                 $artist = $result->metadata->music[0]->artists[0]->name;
