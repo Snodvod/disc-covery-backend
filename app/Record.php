@@ -50,7 +50,7 @@ class Record extends Model
         $spotify_user_id = $user->socials()->where('platform', 'spotify')->first()->api_user_id;
 
         if ($user->playlist_id == null) {
-            $user->playlist_id = self::makePlaylist(, $token);
+            $user->playlist_id = self::makePlaylist($spotify_user_id, $token);
         }
 
         $record = Record::select('records.*')
