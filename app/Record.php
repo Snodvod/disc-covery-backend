@@ -60,8 +60,6 @@ class Record extends Model
             ->orderBy('updated_at', 'desc')
             ->first();
 
-        dd($record);
-
         $tracks = Song::join('record_song', 'record_song.song_id', '=', 'songs.id')
                         ->where('record_song.record_id', $record->id)->get();
         $uris = [];
