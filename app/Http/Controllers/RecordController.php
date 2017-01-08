@@ -49,6 +49,7 @@ class RecordController extends Controller
                         $album = $albums->filter(function ($album) use ($record) {
                             return $album->name == $record->name;
                         })->first();
+
                         foreach ($album->artists as $artist) {
                             if (strcmp($artist->name, $record->artist)) {
                                 $record->spotify_id = $album->id;
