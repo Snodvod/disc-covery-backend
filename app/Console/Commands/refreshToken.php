@@ -45,6 +45,7 @@ class refreshToken extends Command
         $postUrl = 'https://accounts.spotify.com/api/token';
         $params = array(
             'client_id' => env('SPOTIFY_ID'),
+            dd(env('SPOTIFY_ID'));
             'client_secret' => env('SPOTIFY_SECRET'),
             'grant_type' => 'authorization_code',
             'code' => $token,
