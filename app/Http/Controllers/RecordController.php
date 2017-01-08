@@ -63,7 +63,7 @@ class RecordController extends Controller
                     $record->save();
                     $record->users()->attach(1);
                 }
-
+                dd($record);
 
                 return response()->json([
                     'twitter' => SocialAccount::isLinked('twitter'),
