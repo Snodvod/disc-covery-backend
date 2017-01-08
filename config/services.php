@@ -35,4 +35,7 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'ionicpush' => [
+        'key' => env('IONIC_PUSH_API_KEY'),
+    ]
 ];

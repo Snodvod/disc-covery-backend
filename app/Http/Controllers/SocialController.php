@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\facebookPush;
+use App\User;
 use App\SocialAccount;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -24,6 +26,7 @@ class SocialController
     }
 
     public function openFacebookDialog() {
-
+        $user = User::first();
+        $user->notify(new facebookPush($user));
     }
 }

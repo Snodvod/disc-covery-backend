@@ -89,4 +89,9 @@ class User extends Authenticatable
                     ->where('social_accounts.platform', 'facebook')
                     ->first();
     }
+
+    public function routeNotificationForIonicPush()
+    {
+        return $this->device_token;
+    }
 }
