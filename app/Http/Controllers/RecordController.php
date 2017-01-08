@@ -42,9 +42,9 @@ class RecordController extends Controller
                     ]);
 
                     $client = new Client();
-                    $res = $client->get('https://api.spotify.com/v1/search?q=' . str_replace(' ', '+', $record->name) . '&type=album');
+                    $res = $client->get('https://api.spotify.com/v1/search?q=' . $record->name . ' '. $record->artist . '&type=album');
                     $albums = json_decode($res->getBody()->getContents())->albums->items;
-                    
+                    //dd($albums, $)
 
                     if (count($albums) > 0) {
                         foreach ($albums as $index => $album) {
