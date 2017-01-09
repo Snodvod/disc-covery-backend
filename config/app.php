@@ -167,7 +167,7 @@ return [
          * Package Service Providers...
          */
         SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
-
+        Thujohn\Twitter\TwitterServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -225,6 +225,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Facebook' => SammyK\LaravelFacebookSdk\FacebookFacade::class,
+        'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
     ],
 
 ];

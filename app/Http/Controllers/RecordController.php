@@ -47,23 +47,18 @@ class RecordController extends Controller
 
                     if (count($albums) > 0) {
                         $album = $albums->filter(function ($album) use ($record) {
-                            return $album->name == $record->name;
+                            return strtolower($album->name) == strtolower($record->name);
                         })->first();
-
-                        foreach ($album->artists as $artist) {
-                            if (strcmp($artist->name, $record->artist)) {
-                                $record->spotify_id = $album->id;
-                                $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
-                                $record->saveTracks($tracks);
-                                break;
-                            }
-                        }
+                        $record->spotify_id = $album->id;
+                        $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
+                        $record->saveTracks($tracks);
                     } else {
                         $record->spotify_id = null;
                     }
                     $record->save();
                     $record->users()->attach(1);
                 }
+
 
                 $record = User::find(1)->records()->find($record->id);
                 return response()->json([

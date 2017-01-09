@@ -10,7 +10,8 @@
         "sammyk/laravel-facebook-sdk": "^3.0",
         "jwilsson/spotify-web-api-php": "^1.0.0",
         "guzzlehttp/guzzle": "^6.2",
-        "laravel-notification-channels/ionic-push-notifications": "^1.0"
+        "laravel-notification-channels/ionic-push-notifications": "^1.0",
+        "thujohn/twitter": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
