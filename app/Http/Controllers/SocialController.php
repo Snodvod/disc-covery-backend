@@ -29,8 +29,9 @@ class SocialController
         $data = $request->all();
         SocialAccount::add([
             'token'         => $data['token'],
-            'token_secret'  => $data['token_secret'],
             'fb_token'      => $data['fb_token'],
+            'api_user_id'   => $data['api_user_id'],
+            'token_secret'  => $data['token_secret'],
             'platform'      => 'twitter',
         ]);
     }
