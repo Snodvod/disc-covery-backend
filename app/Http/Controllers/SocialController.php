@@ -19,18 +19,19 @@ class SocialController
     public function spotify(Request $request) {
         $data = $request->all();
         SocialAccount::add([
-            'token' => $data['token'],
-            'fb_token' => $data['fb_token'],
-            'platform' => 'spotify',
+            'token'     => $data['token'],
+            'fb_token'  => $data['fb_token'],
+            'platform'  => 'spotify',
         ]);
     }
 
     public function twitter(Request $request) {
         $data = $request->all();
         SocialAccount::add([
-            'token' => $data['token'],
-            'fb_token' => $data['fb_token'],
-            'platform' => 'twitter',
+            'token'         => $data['token'],
+            'token_secret'  => $data['token_secret'],
+            'fb_token'      => $data['fb_token'],
+            'platform'      => 'twitter',
         ]);
     }
 

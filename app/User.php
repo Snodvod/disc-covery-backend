@@ -84,7 +84,7 @@ class User extends Authenticatable
     }
 
     protected function findByFbToken($token) {
-	    return User::join('social_accounts', 'social_accounts.user_id', '=', 'users.id')
+	    return User::select('users.*')->join('social_accounts', 'social_accounts.user_id', '=', 'users.id')
                     ->where('social_accounts.token', $token)
                     ->where('social_accounts.platform', 'facebook')
                     ->first();

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\User;
+use App\SocialAccount;
 use Illuminate\Console\Command;
 use GuzzleHttp\Client;
 
@@ -39,28 +39,32 @@ class refreshToken extends Command
      */
     public function handle()
     {
-        $social = User::find(1)->socials()->where('platform', 'spotify')->first();
-        $token = $social->token;
+        $socials = SocialAccount::where('platform', 'spotify')->get();
 
-        dd(env('SPOTIFY_ID'));
-        $postUrl = 'https://accounts.spotify.com/api/token';
-        $params = array(
-            'client_id' => env('SPOTIFY_ID'),
-            'client_secret' => env('SPOTIFY_SECRET'),
-            'grant_type' => 'authorization_code',
-            'code' => $token,
-            'redirect_uri' => env('SPOTIFY_REDIRECT'),
-        );
+        foreach ($socials as $social) {
+            $token = $social->refresh_token;
 
-        $client = new Client();
+            $postfields = 'grant_type=refresh_token' .
+                            '&refresh_token='.$token;
 
-        $request = $client->request('POST', $postUrl, $params);
-        $result = $client->send($request);
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, 'https://accounts.spotify.com/api/token');
+            curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                'Authorization: Basic ' . \base64_encode(env('SPOTIFY_ID') . ':' . env('SPOTIFY_SECRET')),
+                'Content-Type: application/x-www-form-urlencoded',
+            ]);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $postfields);
 
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 
-        $social->token = $result->access_token;
-        $social->save();
+            $result = json_decode(curl_exec($curl), true);
+            curl_close($curl);
 
+            $this->info(json_encode($result));
+            $social->token = $result['access_token'];
+            $social->save();
 
+        }
     }
 }

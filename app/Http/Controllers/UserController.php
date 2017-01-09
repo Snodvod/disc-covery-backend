@@ -18,6 +18,7 @@ class UserController extends Controller
     }
 
     public function show($id) { return json_encode(User::find($id)); }
+
     public function destroy($id) { User::destroy($id); }
 
     public function create(Request $request) {

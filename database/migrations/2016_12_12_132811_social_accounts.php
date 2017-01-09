@@ -17,9 +17,11 @@ class SocialAccounts extends Migration
            $table->increments('id');
            $table->string('platform');
            $table->string('token');
+           $table->string('token_secret')->nullable();
            $table->integer('user_id')->unsigned();
            $table->string('playlist_id')->nullable();
            $table->string('api_user_id');
+           $table->string('refresh_token')->nullable();
 
            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
