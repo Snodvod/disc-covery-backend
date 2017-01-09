@@ -58,7 +58,7 @@ class SocialAccount extends Model
         $social->token = $data['token'];
 
         if ($data['platform'] == 'spotify') { $social->refresh_token = $data['refresh_token']; }
-        if ($data['platform'] == 'twitter') { $social->token_secret = $data['refresh_token']; }
+        if ($data['platform'] == 'twitter') { $social->token_secret = $data['token_secret']; }
 
         $social->save();
     }
