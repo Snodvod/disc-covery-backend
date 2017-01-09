@@ -31,6 +31,7 @@ class UserController extends Controller
 
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
+        $user->device_token = $token;
         $user->save();
 
         SocialAccount::add([
