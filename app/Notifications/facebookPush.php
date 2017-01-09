@@ -40,6 +40,6 @@ class facebookPush extends Notification
             ->title('Send')
             ->message('nudes')
             ->sound('ping.aiff')
-            ->payload(['foo' => 'bar']);
+            ->payload(['link' => 'https://spotify.com']);
     }
 }

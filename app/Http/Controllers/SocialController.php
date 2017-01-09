@@ -25,6 +25,15 @@ class SocialController
         ]);
     }
 
+    public function twitter(Request $request) {
+        $data = $request->all();
+        SocialAccount::add([
+            'token' => $data['token'],
+            'fb_token' => $data['fb_token'],
+            'platform' => 'twitter',
+        ]);
+    }
+
     public function openFacebookDialog() {
         $user = User::first();
         $user->notify(new facebookPush($user));

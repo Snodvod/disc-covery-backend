@@ -18,6 +18,7 @@ Route::get('/followed-by', 'UserController@followedBy');
 Route::get('/my-music', 'RecordController@myList');
 Route::get('/newsfeed/{user_id?}', 'MessageController@get');
 Route::post('spotify/link', 'SocialController@spotify');
+Route::post('twitter/link', 'SocialController@twitter');
 
 Route::group(['prefix' => 'messages'], function () {
  	Route::get('/', 'MessageController@index');
