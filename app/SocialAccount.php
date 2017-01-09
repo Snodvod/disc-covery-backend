@@ -49,7 +49,6 @@ class SocialAccount extends Model
 
         if (!array_key_exists('user_id', $data)) { $data['user_id'] = User::findByFbToken($data['fb_token'])->id; }
 
-        dd($data);
         $social = self::firstOrNew([
             'user_id'       => $data['user_id'],
             'platform'      => $data['platform'],
