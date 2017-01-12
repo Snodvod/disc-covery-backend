@@ -96,7 +96,11 @@ class RecordController extends Controller
 
     public function myList(Request $request)
     {
-        return json_encode([]);
+        $records = Record::select('records.*')
+                            ->join('record_user', 'record_user.record_id', '=', 'records.id')
+                            ->where('user_id', User::findByFbToken($request->input('fb_token'))->id)
+                            ->get();
+        return json_encode($records);
     }
 
     public function addToPlaylist()
