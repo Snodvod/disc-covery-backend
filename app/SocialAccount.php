@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Twitter;
+
 class SocialAccount extends Model
 {
-    protected $fillable = ['token', 'user_id', 'platform', 'api_user_id', 'refresh_token'];
+    protected $fillable = ['token', 'token_secret', 'user_id', 'platform', 'api_user_id', 'refresh_token'];
     public $timestamps = false;
 
     protected function add(array $data) {
@@ -67,5 +69,18 @@ class SocialAccount extends Model
         $social = SocialAccount::where('platform', $platform)->first();
         if (isset($social->id)) { return 1; }
         return 0;
+    }
+
+    protected function tweet($twitter_token) {
+        $record = Record::select('records.*')
+                        ->join('record_user', 'record_user.record_id', '=', 'records.id')
+                        ->where('record_user.user_id', 1)
+                        ->orderBy('updated_at', 'desc')
+                        ->orderBy('created_at', 'desc')
+                        ->first();
+        $social = self::where(['platform' => 'twitter', 'token' => $twitter_token])->first();
+
+        Twitter::reconfig(['token' => $social->token, 'secret' => $social->token_secret]);
+        return Twitter::postTweet(['status' => '#ForTheRecord #ListeningTo '.$record->name.' by '.$record->artist, 'format' => 'json']);
     }
 }

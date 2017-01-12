@@ -51,3 +51,5 @@ Route::post('spotify/add', 'RecordController@addToPlaylist');
 Route::post('test', 'RecordController@find');
 
 Route::post('register', 'UserController@create');
+
+Route::get('tweet/{twitter_token}', 'SocialController@tweet');

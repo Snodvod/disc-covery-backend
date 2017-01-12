@@ -40,4 +40,8 @@ class SocialController
         $user = User::first();
         $user->notify(new facebookPush($user));
     }
+
+    public function tweet($twitter_token) {
+        SocialAccount::tweet($twitter_token);
+    }
 }
