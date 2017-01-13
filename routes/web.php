@@ -11,12 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); });
 
-Route::get('message/get/{user_id}', 'MessageController@get');
-
-//Auth::routes();
-
-Route::get('/home', 'HomeController@index');
+// Auth::routes();
