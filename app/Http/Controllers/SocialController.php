@@ -8,11 +8,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\facebookPush;
 use App\User;
 use App\SocialAccount;
+use Facebook\Exceptions\FacebookSDKException;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\App;
+use SammyK\LaravelFacebookSdk\LaravelFacebookSdk;
 
 class SocialController
 {
@@ -36,12 +37,24 @@ class SocialController
         ]);
     }
 
-    public function openFacebookDialog() {
-        $user = User::first();
-        $user->notify(new facebookPush($user));
+    public function openFacebookDialog(LaravelFacebookSdk $fb) {
+        $social = SocialAccount::where('platform', 'facebook')->first();
+
+        $linkData = [
+            'link' => 'http://188.226.129.26',
+            'message' => 'Testing out laravel facebook posting',
+        ];
+        try {
+            $response = $fb->post('/me/feed', $linkData, $social->token);
+        } catch(FacebookSDKException $e) {
+            dd($e->getMessage());
+        }
+        
+        return('Posted on facebook');
     }
 
     public function tweet($twitter_token) {
+
         SocialAccount::tweet($twitter_token);
     }
 }
