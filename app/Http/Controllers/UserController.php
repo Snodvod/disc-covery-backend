@@ -25,7 +25,7 @@ class UserController extends Controller
         $data = $request->all();
 
         // Set all users to non active
-        User::all()->update(['active', false]);
+        User::where('active', true)->update(['active', false]);
 
         $token = $data['token'];
         unset($data['token']);
