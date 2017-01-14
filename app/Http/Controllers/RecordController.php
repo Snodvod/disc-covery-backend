@@ -50,6 +50,7 @@ class RecordController extends Controller
                             return strtolower($album->name) == strtolower($record->name);
                         })->first();
                         $record->spotify_id = $album->id;
+                        $record->image = $album->images[1];
                         $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
                         $record->saveTracks($tracks);
                     } else {
@@ -81,7 +82,9 @@ class RecordController extends Controller
 
     public function show($id)
     {
-        return json_encode(Record::find($id));
+        $record = Record::find($id);
+        $record->tracks = $record->songs();
+        return json_encode($record);
     }
 
     public function add($record_id)
