@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Record;
 use App\User;
 use App\SocialAccount;
 use Facebook\Exceptions\FacebookSDKException;
@@ -41,13 +42,19 @@ class SocialController
 
     public function openFacebookDialog(LaravelFacebookSdk $fb)
     {
-        $user = User::where('active', true);
+        $user = User::where('active', true)->first();
         $social = $user->socials()->where('platform', 'facebook')->first();
 
+        $record = Record::select('records.*')
+            ->join('record_user', 'record_user.record_id', 'records.id')
+            ->join('users', 'record_user.user_id', 'users.id')
+            ->where('record_user.user_id', $user->id)
+            ->orderBy('updated_at', 'desc')
+            ->first();
 
         $linkData = [
-            'link' => 'http://188.226.129.26',
-            'message' => 'Testing out laravel facebook posting',
+            'link' => 'http://fortherecord.be',
+            'message' => '#ForTheRecord #ListeningTo '.$record->name.' by '.$record->artist,
         ];
         try {
             $response = $fb->post('/me/feed', $linkData, $social->token);
@@ -60,9 +67,11 @@ class SocialController
 
     public function tweet()
     {
-        $user = User::where('active', true);
+        $user = User::where('active', true)->first();
         $twitter = $user->socials()->where('platform', 'twitter')->first();
 
         SocialAccount::tweet($twitter->token);
+
+        return 'Tweeted';
     }
 }
