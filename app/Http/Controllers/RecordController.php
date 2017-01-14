@@ -84,6 +84,24 @@ class RecordController extends Controller
     {
         $record = Record::find($id);
         $record->tracks = $record->songs;
+
+        foreach ($record->tracks as $track)
+        {
+            $track->duration = intval($track->duration);
+
+            $seconds = ($track->duration / 1000) % 60;
+            $input = floor($track->duration / 1000) / 60;
+
+            $minutes = $track->duration % 60;
+            $input = floor($track->duration / 60);
+
+            if ($minutes < 10) { $minutes = "0".$minutes; }
+            if ($seconds < 10) { $seconds = "0".$seconds; }
+
+            $duration = $minutes.':'.$seconds;
+            $track->duration = $duration;
+        }
+
         return json_encode($record);
     }
 
