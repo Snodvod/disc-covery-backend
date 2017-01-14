@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () { return view('welcome'); });
+Route::get('/', 'HomeController@index');
 
 Route::get('/download/android', 'HomeController@android');
 

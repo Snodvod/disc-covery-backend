@@ -26,16 +26,15 @@
 </head>
 <body>
 <div class="container" id="fullpage">
-    <div class="row section homepage-hero-module">
+    <div class="row section homepage-hero-module" data-anchor="slide1">
         <div class="hero-unit">
-            <h1>For The Record</h1>
+            <h1>For the Record</h1>
             <h3>The social record player</h3>
             <p>
                 Enjoy the warm sound of vinyl along with the perks of sharing your music with friends
             </p>
         </div>
         <div class="video-container">
-            <div class="filter"></div>
             <video autoplay loop class="fillWidth">
                 <source src="vids/vibes.mp4" type="video/mp4"/>
                 Your browser does not support the video tag. I suggest you upgrade your browser.
@@ -46,8 +45,11 @@
                 <img src="vids/vibes.jpg" alt="header video snapshot">
             </div>
         </div>
+        <a href="#secondPage">
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+        </a>
     </div>
-    <div class="row section">
+    <div class="row section" data-anchor="slide2">
         <div class="col-md-6 col-md-offset-3">
             <div class="row part">
                 <div class="col-md-6">
@@ -85,8 +87,11 @@
                 </div>
                 <div class="col-md-6 contact">
                     <div class="row">
-                        <div class="col-md-2"><a href="mailto:tim.vandijck.1@student.kdg.be, ino.vanwinckel@student.kdg.be"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></div>
-                        <div class="col-md-2"><a href="https://www.facebook.com/messages/InoVW"><i class="fa fa-facebook" aria-hidden="true"></i></a></p></div>
+                        <div class="col-md-2"><a
+                                    href="mailto:tim.vandijck.1@student.kdg.be, ino.vanwinckel@student.kdg.be"><i
+                                        class="fa fa-envelope-o" aria-hidden="true"></i></a></div>
+                        <div class="col-md-2"><a href="https://www.facebook.com/messages/InoVW"><i
+                                        class="fa fa-facebook" aria-hidden="true"></i></a></p></div>
                         <div class="col-md-2"></div>
 
 

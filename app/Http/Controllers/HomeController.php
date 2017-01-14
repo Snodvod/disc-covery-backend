@@ -6,28 +6,14 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('home');
+        return view('welcome');
     }
 
     public function android()
     {
-        return response()->file('/apps/fortherecord.apk');
+        $path = public_path(). "/apps/fortherecord.apk";
+        return response()->download($path, 'fortherecord.apk');
     }
 }

@@ -13,7 +13,13 @@ body {
   background-attachment: fixed;
   background-size: cover;
 }
-
+.fa-angle-down {
+  position: absolute;
+  font-size: 100px !important;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 .hero-unit {
   position: absolute;
   top: 0;
