@@ -125,7 +125,7 @@ class RecordController extends Controller
 
     public function addToPlaylist()
     {
-        $user = User::find(1);
+        $user = User::where('active', true);
 
         return Record::addToPlaylist($user->socials()->where('platform', 'spotify')->first()->token);
     }

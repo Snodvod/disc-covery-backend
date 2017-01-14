@@ -24,6 +24,9 @@ class UserController extends Controller
     public function create(Request $request) {
         $data = $request->all();
 
+        // Set all users to non active
+        User::all()->update(['active', false]);
+
         $token = $data['token'];
         unset($data['token']);
 
@@ -32,6 +35,7 @@ class UserController extends Controller
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
         $user->device_token = $token;
+        $user->active = true;
         $user->save();
 
         SocialAccount::add([

@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('device_token');
             $table->string('email')->unique();
             $table->string('image')->nullable();
-
+            $table->boolean('active')->default(true);
             $table->rememberToken();
         });
     }
