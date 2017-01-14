@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function android()
+    {
+        return response()->file('/apps/fortherecord.apk');
+    }
 }

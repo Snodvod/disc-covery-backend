@@ -1,9 +1,96 @@
-
 // Fonts
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
-
 // Variables
 @import "variables";
-
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  background: url('../img/wood-bg.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.hero-unit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 1;
+  width: 40%;
+  height: 10em;
+  h1 {
+    font-size: 3em;
+  }
+}
+
+p {
+  font-size: 16px;
+}
+
+.homepage-hero-module {
+  height: 100vh;
+  position: relative;
+  .video-container {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+.homepage-hero-module .video-container video {
+  margin-top: -20em;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  .section {
+    margin: 0;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    .row {
+      &.part {
+        &:last-child {
+          border:none;
+        }
+        padding: 41px 0;
+        border-bottom: 1px solid #808080;
+
+        .logo {
+          background-image: url(/img/logo.svg);
+          background-size: 40%;
+          height: 200px;
+          background-repeat: no-repeat;
+          background-position: 50%;
+        }
+        .android {
+          height: 200px;
+          background-image: url(/img/android.svg);
+          background-repeat: no-repeat;
+          background-position: 50%;
+          background-size: contain;
+        }
+        .contact {
+          padding-top: 22px;
+          .fa {
+            color: white;
+            font-size: 45px;
+            &.fa-facebook {
+              color: #3b5998;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+h1, h2, h3 {
+  font-weight: 900;
+}

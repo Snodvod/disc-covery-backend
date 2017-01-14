@@ -13,4 +13,6 @@
 
 Route::get('/', function () { return view('welcome'); });
 
+Route::get('/download/android', 'HomeController@android');
+
 // Auth::routes();
