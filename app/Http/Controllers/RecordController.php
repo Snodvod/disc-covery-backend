@@ -90,7 +90,7 @@ class RecordController extends Controller
             $track->duration = intval($track->duration);
 
             $seconds = ($track->duration / 1000) % 60;
-            $input = floor($track->duration / 1000) / 60);
+            $input = floor($track->duration / 1000) / 60;
 
             $minutes = $track->duration % 60;
             $input = floor($track->duration / 60);
