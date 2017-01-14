@@ -16,5 +16,10 @@ $(document).ready(function() {
     $('#fullpage').fullpage({
         anchors:['firstPage', 'secondPage']
     });
+
+    var $video = $('#vid');
+    $video.on('canplaythrough', function() {
+        this.play();
+    });
 });
 

@@ -35,7 +35,7 @@
             </p>
         </div>
         <div class="video-container">
-            <video autoplay loop class="fillWidth">
+            <video id="vid" autoplay loop class="fillWidth">
                 <source src="vids/vibes.mp4" type="video/mp4"/>
                 Your browser does not support the video tag. I suggest you upgrade your browser.
                 <source src="vids/vibes.webm" type="video/webm"/>
