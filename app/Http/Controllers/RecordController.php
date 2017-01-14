@@ -83,7 +83,7 @@ class RecordController extends Controller
     public function show($id)
     {
         $record = Record::find($id);
-        $record->tracks = $record->songs();
+        $record->tracks = $record->songs;
         return json_encode($record);
     }
 
