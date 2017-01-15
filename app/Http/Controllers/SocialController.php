@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Record;
 use App\User;
 use App\SocialAccount;
 use Facebook\Exceptions\FacebookSDKException;
@@ -17,44 +18,60 @@ use SammyK\LaravelFacebookSdk\LaravelFacebookSdk;
 
 class SocialController
 {
-    public function spotify(Request $request) {
+    public function spotify(Request $request)
+    {
         $data = $request->all();
         SocialAccount::add([
-            'token'     => $data['token'],
-            'fb_token'  => $data['fb_token'],
-            'platform'  => 'spotify',
+            'token' => $data['token'],
+            'fb_token' => $data['fb_token'],
+            'platform' => 'spotify',
         ]);
     }
 
-    public function twitter(Request $request) {
+    public function twitter(Request $request)
+    {
         $data = $request->all();
         SocialAccount::add([
-            'token'         => $data['token'],
-            'fb_token'      => $data['fb_token'],
-            'api_user_id'   => $data['api_user_id'],
-            'token_secret'  => $data['token_secret'],
-            'platform'      => 'twitter',
+            'token' => $data['token'],
+            'fb_token' => $data['fb_token'],
+            'api_user_id' => $data['api_user_id'],
+            'token_secret' => $data['token_secret'],
+            'platform' => 'twitter',
         ]);
     }
 
-    public function openFacebookDialog(LaravelFacebookSdk $fb) {
-        $social = SocialAccount::where('platform', 'facebook')->first();
+    public function openFacebookDialog(LaravelFacebookSdk $fb)
+    {
+        $user = User::where('active', true)->first();
+        $social = $user->socials()->where('platform', 'facebook')->first();
+
+        $record = Record::select('records.*')
+            ->join('record_user', 'record_user.record_id', 'records.id')
+            ->join('users', 'record_user.user_id', 'users.id')
+            ->where('record_user.user_id', $user->id)
+            ->orderBy('updated_at', 'desc')
+            ->first();
 
         $linkData = [
-            'link' => 'http://188.226.129.26',
-            'message' => 'Testing out laravel facebook posting',
+            'link' => 'http://fortherecord.be',
+            'message' => '#ForTheRecord #ListeningTo '.$record->name.' by '.$record->artist,
         ];
         try {
             $response = $fb->post('/me/feed', $linkData, $social->token);
-        } catch(FacebookSDKException $e) {
+        } catch (FacebookSDKException $e) {
             dd($e->getMessage());
         }
-        
-        return('Posted on facebook');
+
+        return ('Posted on facebook');
     }
 
-    public function tweet($twitter_token) {
+    public function tweet()
+    {
+        $user = User::where('active', true)->first();
+        $twitter = $user->socials()->where('platform', 'twitter')->first();
 
-        SocialAccount::tweet($twitter_token);
+        SocialAccount::tweet($twitter->token);
+
+        return 'Tweeted';
     }
 }

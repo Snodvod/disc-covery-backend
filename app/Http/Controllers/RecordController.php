@@ -50,7 +50,7 @@ class RecordController extends Controller
                             return strtolower($album->name) == strtolower($record->name);
                         })->first();
                         $record->spotify_id = $album->id;
-                        $record->image = $album->images[1];
+                        $record->image = $album->images[1]->url;
                         $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
                         $record->saveTracks($tracks);
                     } else {
@@ -125,7 +125,7 @@ class RecordController extends Controller
 
     public function addToPlaylist()
     {
-        $user = User::find(1);
+        $user = User::where('active', true)->first();
 
         return Record::addToPlaylist($user->socials()->where('platform', 'spotify')->first()->token);
     }

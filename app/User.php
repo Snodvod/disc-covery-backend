@@ -17,7 +17,7 @@ class User extends Authenticatable
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['firstname', 'lastname', 'email', 'image', 'playlist_id', 'api_user_id'];
+	protected $fillable = ['firstname', 'lastname', 'email', 'image', 'playlist_id', 'api_user_id', 'active'];
 	public $timestamps = false;
 
 	public function messages() { return $this->belongsToMany('App\Messages'); }
