@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="/img/logo.svg" />
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -33,9 +34,12 @@
             <p>
                 Enjoy the warm sound of vinyl along with the perks of sharing your music with friends
             </p>
+            <a href="#secondPage">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </a>
         </div>
         <div class="video-container">
-            <video id="vid" autoplay loop class="fillWidth">
+            <video id="vi" autoplay loop class="fillWidth">
                 <source src="vids/vibes.mp4" type="video/mp4"/>
                 Your browser does not support the video tag. I suggest you upgrade your browser.
                 <source src="vids/vibes.webm" type="video/webm"/>
@@ -45,9 +49,7 @@
                 <img src="vids/vibes.jpg" alt="header video snapshot">
             </div>
         </div>
-        <a href="#secondPage">
-            <i class="fa fa-angle-down" aria-hidden="true"></i>
-        </a>
+
     </div>
     <div class="row section" data-anchor="slide2">
         <div class="col-md-6 col-md-offset-3">
