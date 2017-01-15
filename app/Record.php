@@ -53,36 +53,39 @@ class Record extends Model
             $user->playlist_id = self::makePlaylist($spotify_user_id, $token);
         }
 
-        $record = Record::select('records.*')
+        $record = Record::select('records.*', 'record_user.spotified', 'record_user.id AS ruid')
             ->join('record_user', 'record_user.record_id', 'records.id')
             ->join('users', 'record_user.user_id', 'users.id')
             ->where('record_user.user_id', $user->id)
             ->orderBy('updated_at', 'desc')
             ->first();
 
-        $tracks = Song::join('record_song', 'record_song.song_id', '=', 'songs.id')
-                        ->where('record_song.record_id', $record->id)->get();
-        $uris = [];
+        if (!$record->spotified) {
+            $tracks = Song::join('record_song', 'record_song.song_id', '=', 'songs.id')
+                ->where('record_song.record_id', $record->id)->get();
+            $uris = [];
 
-        foreach ($tracks as $track) {
-            array_push($uris, 'spotify:track:' . $track->spotify_id);
+            foreach ($tracks as $track) {
+                array_push($uris, 'spotify:track:' . $track->spotify_id);
+            }
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, 'https://api.spotify.com/v1/users/'.$spotify_user_id.'/playlists/'.$user->playlist_id.'/tracks');
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Bearer '.$token,
+                'Accept: application/json'
+            ]);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['uris' => $uris]));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+            $result = curl_exec($ch);
+
+            curl_close($ch);
+            DB::table('record_user')->where('id', $record->ruid)->update(['spotified' => 1]);
+
+            return $result;
         }
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, 'https://api.spotify.com/v1/users/'.$spotify_user_id.'/playlists/'.$user->playlist_id.'/tracks');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer '.$token,
-            'Accept: application/json'
-        ]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['uris' => $uris]));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-
-        $result = curl_exec($ch);
-
-        curl_close($ch);
-
-        return $result;
     }
 
     protected function makePlaylist($spotify_id, $token)
@@ -125,3 +128,5 @@ class Record extends Model
         return $this->belongsToMany('App\User')->withPivot('spotified')->withTimestamps();
     }
 }
+
+
