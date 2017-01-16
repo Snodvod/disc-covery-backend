@@ -14,7 +14,8 @@
 
 $(document).ready(function() {
     $('#fullpage').fullpage({
-        anchors:['firstPage', 'secondPage']
+        anchors:['firstPage', 'secondPage'],
+        responsiveWidth: 900
     });
 
     var $video = $('#vid');

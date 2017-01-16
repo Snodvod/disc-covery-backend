@@ -27,7 +27,7 @@
 </head>
 <body>
 <div class="container" id="fullpage">
-    <div class="row section homepage-hero-module" data-anchor="slide1">
+    <div class="row fp-auto-height-responsive section homepage-hero-module" data-anchor="slide1">
         <div class="hero-unit">
             <h1>For the Record</h1>
             <h3>The social record player</h3>
@@ -51,7 +51,7 @@
         </div>
 
     </div>
-    <div class="row section" data-anchor="slide2">
+    <div class="row fp-auto-height-responsive section" data-anchor="slide2">
         <div class="col-md-6 col-md-offset-3">
             <div class="row part">
                 <div class="col-md-6">
