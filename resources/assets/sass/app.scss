@@ -6,12 +6,35 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 @media (max-device-width: $screen-xs-max) {
+  .android {
+    height:100px;
+  }
+  .part {
+    padding: 3.5em 0 !important;
+  }
+  .companion {
+    margin-top: 11px;
+  }
+  .poster {
+    .image {
+      background-image: url(/img/naald.png);
+      height: 100vh;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: 50%;
+    }
+  }
+  .mobile-only {
+    display: block !important;
+  }
+  .desktop-only {
+    display: none !important;
+  }
   .hero-unit {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-
     bottom: 0;
     margin: auto;
     z-index: 1;
@@ -20,13 +43,13 @@
       margin-top: 4em
     }
     p {
-      margin-bottom: 80%;
+      margin-bottom: 50%;
     }
   }
   .fa-angle-down {
     width: 100%;
     text-align: center;
-
+    margin-top: 1em;
   }
 }
 
@@ -45,8 +68,25 @@ body {
   text-align: center;
 }
 
-@media (min-width: $screen-lg-min) {
+.video-overlay {
+  height:100%;
+  width:100%;
+  position: absolute;
+  left:0;
+  top:0;
+  background-color: rgba(255, 123, 0, 0.2);
+}
 
+@media (min-width: $screen-lg-min) {
+  .mobile-only {
+    display: none !important;
+  }
+  .desktop-only {
+    display: block !important;
+  }
+  .logo, .android {
+    height: 200px;
+  }
   .hero-unit {
     position: absolute;
     top: 0;
@@ -56,7 +96,7 @@ body {
     margin: auto;
     z-index: 1;
     width: 40%;
-    height: 10em;
+    padding-top: 14%;
     h1 {
       font-size: 3em;
     }
@@ -65,8 +105,11 @@ body {
       text-align: center;
     }
     p {
-      margin-bottom: 10em;
+      margin-bottom: 17em;
     }
+  }
+  .homepage-hero-module .video-container video {
+    width: 100%;
   }
 }
 
@@ -81,10 +124,6 @@ p {
     height: 100%;
     overflow: hidden;
   }
-}
-
-.homepage-hero-module .video-container video {
-  margin-top: -20em;
 }
 
 .container {
@@ -105,13 +144,11 @@ p {
 
         .logo {
           background-image: url(/img/logo.svg);
-          background-size: 40%;
-          height: 200px;
+          background-size: contain;
           background-repeat: no-repeat;
           background-position: 50%;
         }
         .android {
-          height: 200px;
           background-image: url(/img/android.svg);
           background-repeat: no-repeat;
           background-position: 50%;
