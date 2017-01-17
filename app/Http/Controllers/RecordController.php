@@ -35,10 +35,6 @@ class RecordController extends Controller
 
                 $record = Record::where('name', $album)->first();
 
-                $finalRecord = Record::select('records.*', 'record_user.spotified')
-                    ->join('record_user', 'record_user.record_id', '=', 'records.id')
-                    ->where('record_id', $record->id)
-                    ->first();
                 if (!$record) {
 
                     $record = Record::create([
@@ -68,13 +64,12 @@ class RecordController extends Controller
                     }
 
                     $record = User::where('active', true)->first()->records()->save($record);
-
-                    $finalRecord = Record::select('records.*', 'record_user.spotified')
-                        ->join('record_user', 'record_user.record_id', '=', 'records.id')
-                        ->where('record_id', $record->id)
-                        ->first();
                 }
-
+                $finalRecord = Record::select('records.*', 'record_user.spotified')
+                    ->join('record_user', 'record_user.record_id', '=', 'records.id')
+                    ->where('record_id', $record->id)
+                    ->first();
+                
                 return response()->json([
                     'twitter' => SocialAccount::isLinked('twitter'),
                     'spotify' => SocialAccount::isLinked('spotify') && !$finalRecord->spotified,
