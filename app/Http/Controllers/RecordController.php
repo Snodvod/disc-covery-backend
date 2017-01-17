@@ -22,6 +22,7 @@ class RecordController extends Controller
         $result = $musicFinder->find($file);
         $result = json_decode($result);
 
+
         if ($result) {
             if ($result->status->msg == "Success") {
                 $title = $result->metadata->music[0]->title;
@@ -33,6 +34,11 @@ class RecordController extends Controller
                 $year = $results[0]['album_year'];
 
                 $record = Record::where('name', $album)->first();
+
+                $finalRecord = Record::select('records.*', 'record_user.spotified')
+                    ->join('record_user', 'record_user.record_id', '=', 'records.id')
+                    ->where('record_id', $record->id)
+                    ->first();
                 if (!$record) {
 
                     $record = Record::create([
@@ -47,8 +53,12 @@ class RecordController extends Controller
 
                     if (count($albums) > 0) {
                         $album = $albums->filter(function ($album) use ($record) {
-                            return strtolower($album->name) == strtolower($record->name);
+                            $album->name = preg_replace("/\([^)]+\)/","",$album->name);
+                            $album->name = preg_replace('/\[.*?\]/', '', $album->name);
+
+                            return strtolower(trim($album->name)) == strtolower(trim($record->name));
                         })->first();
+
                         $record->spotify_id = $album->id;
                         $record->image = $album->images[1]->url;
                         $tracks = json_decode($client->get('https://api.spotify.com/v1/albums/' . $record->spotify_id . '/tracks')->getBody()->getContents())->items;
@@ -56,15 +66,18 @@ class RecordController extends Controller
                     } else {
                         $record->spotify_id = null;
                     }
-                    $record->save();
-                    $record->users()->attach(1);
+
+                    $record = User::where('active', true)->first()->records()->save($record);
+
+                    $finalRecord = Record::select('records.*', 'record_user.spotified')
+                        ->join('record_user', 'record_user.record_id', '=', 'records.id')
+                        ->where('record_id', $record->id)
+                        ->first();
                 }
 
-
-                $record = User::find(1)->records()->find($record->id);
                 return response()->json([
                     'twitter' => SocialAccount::isLinked('twitter'),
-                    'spotify' => SocialAccount::isLinked('spotify') && !$record->pivot->spotified,
+                    'spotify' => SocialAccount::isLinked('spotify') && !$finalRecord->spotified,
                     'result' => 1,
                 ], 200);
             } else {

@@ -65,7 +65,9 @@ class Musicfinder
         $track = preg_replace("/\([^)]+\)/","",$track);
         $track = preg_replace('/\[.*?\]/', '', $track);
 
+
         $results = $api->searchTrack($artist, '', $track);
-        return $results;
+        $sortedResults = collect($results)->sortBy('album_year')->values()->all();
+        return $sortedResults;
     }
 }
