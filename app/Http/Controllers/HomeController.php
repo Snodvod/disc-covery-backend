@@ -13,7 +13,7 @@ class HomeController extends Controller
 
     public function android()
     {
-        $path = public_path(). "/apps/fortherecord.apk";
-        return response()->download($path, 'fortherecord.apk');
+        $path = public_path(). "/apps/ForTheRecord.apk";
+        return response()->download($path, 'ForTheRecord.apk');
     }
 }
