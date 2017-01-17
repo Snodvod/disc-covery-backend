@@ -14,8 +14,8 @@
 
 $(document).ready(function() {
     $('#fullpage').fullpage({
-        anchors:['firstPage', 'secondPage'],
-        responsiveWidth: 900
+        anchors:['firstPage', 'secondPage', 'thirdPage'],
+        autoScrolling: true
     });
 
     var $video = $('#vid');

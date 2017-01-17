@@ -27,7 +27,7 @@
 </head>
 <body>
 <div class="container" id="fullpage">
-    <div class="row fp-auto-height-responsive section homepage-hero-module" data-anchor="slide1">
+    <div class="row section homepage-hero-module">
         <div class="hero-unit">
             <h1 class="fatboy">For the Record</h1>
             <h3>The social record player</h3>
@@ -40,7 +40,7 @@
         </div>
         <div class="video-container">
             <div class="video-overlay"></div>
-            <video id="vid" loop class="desktop-only fillWidth">
+            <video id="vid" data-keepplaying autoplay loop class="desktop-only fillWidth">
                 <source src="vids/vid.mp4" type="video/mp4"/>
                 Your browser does not support the video tag. I suggest you upgrade your browser.
             </video>
@@ -50,7 +50,44 @@
         </div>
 
     </div>
-    <div class="row fp-auto-height-responsive section" data-anchor="slide2">
+    <div row class="row section" id="section2">
+        <div class="slide" id="slide1">
+            <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 text-center">
+                <h3 class="title">Connect with social platforms & spotify</h3>
+                <div class="image connect">
+
+                </div>
+            </div>
+        </div>
+        <div class="slide" id="slide2">
+            <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 text-center">
+                <h3 class="title">Play a record & let the player recognize your album</h3>
+                <div class="image play">
+
+                </div>
+            </div>
+        </div>
+        <div class="slide" id="slide3">
+            <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 text-center">
+                <h3 class="title">Push to add the record to spotify or post about it on facebook or twitter</h3>
+                <div class="image push">
+
+                </div>
+            </div>
+        </div>
+        <div class="slide" id="slide3">
+            <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 text-center">
+                <h3 class="title">Let the world know how awesome your collection is</h3>
+                <div class="image tweet">
+
+                </div>
+            </div>
+        </div>
+        <a href="#thirdPage">
+            <i class="fa fa-angle-down third" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="row section">
         <div class="col-md-6 col-md-offset-3">
             <div class="row part">
                 <div class="col-md-6">

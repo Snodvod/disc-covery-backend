@@ -69,7 +69,7 @@ class RecordController extends Controller
                     ->join('record_user', 'record_user.record_id', '=', 'records.id')
                     ->where('record_id', $record->id)
                     ->first();
-                
+
                 return response()->json([
                     'twitter' => SocialAccount::isLinked('twitter'),
                     'spotify' => SocialAccount::isLinked('spotify') && !$finalRecord->spotified,
