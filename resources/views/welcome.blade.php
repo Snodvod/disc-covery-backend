@@ -124,7 +124,7 @@
                 </div>
                 <div class="col-md-6 col-xs-4 contact">
                     <div class="row">
-                        <div class="col-md-2 col-xs-6"><a
+                        <div class="col-md-2 col-md-offset-4 col-xs-6"><a
                                     href="mailto:tim.vandijck.1@student.kdg.be, ino.vanwinckel@student.kdg.be"><i
                                         class="fa fa-envelope-o" aria-hidden="true"></i></a></div>
                         <div class="col-md-2 col-xs-6"><a href="https://www.facebook.com/messages/InoVW"><i

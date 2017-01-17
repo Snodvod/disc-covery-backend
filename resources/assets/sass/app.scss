@@ -5,6 +5,16 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+@font-face {
+  font-family: 'fatboy';
+  src: url('/fonts/fbsbltc-webfont.woff2') format('woff2'),
+  url('/fonts/fbsbltc-webfont.woff') format('woff');
+}
+
+.fatboy {
+  font-family: 'fatboy', sans-serif;
+}
+
 .image {
   background-repeat: no-repeat;
   background-position: 50%;
