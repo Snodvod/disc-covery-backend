@@ -66,7 +66,11 @@ class SocialAccount extends Model
     }
 
     protected function isLinked($platform) {
-        $social = SocialAccount::where('platform', $platform)->first();
+        $user = User::where('active', true);
+        $social = SocialAccount::whereHas('users', function($query) use ($user){
+            $query->where('id', $user->id);
+        })->where('platform', $platform);
+
         if (isset($social->id)) { return 1; }
         return 0;
     }
